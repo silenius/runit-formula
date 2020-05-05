@@ -1,0 +1,7 @@
+{% import_yaml "runit/os.yaml" as osmap %}
+
+{% set runit = salt.grains.filter_by(
+    osmap,
+    grain='os',
+    merge=salt.pillar.get('runit:lookup', {})
+) %}

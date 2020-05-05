@@ -1,0 +1,6 @@
+# vim: ts=2 sw=2
+
+FreeBSD:
+  pkg: runit
+  service_dir: /var/service
+  service_name: runsvdir
