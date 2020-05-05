@@ -4,3 +4,4 @@ FreeBSD:
   pkg: runit
   service_dir: /var/service
   service_name: runsvdir
+  sv: /usr/local/bin/sv

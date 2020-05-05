@@ -8,7 +8,7 @@
 {% set service = runit.service_dir | path_join(name) %}
 {{ name }}_stop_service:
   cmd.run:
-    - name: sv down {{ service }}
+    - name: {{ runit.sv }} down {{ service }}
     - onlyif:
       - test -d {{ service }}
 {%- endmacro %}
@@ -24,7 +24,7 @@
     - name: {{ service | path_join('run') }}
     - mode: 754
   cmd.run:
-    - name: sv up {{ service }}
+    - name: {{ runit.sv }} up {{ service }}
     - onlyif:
       - test -d {{ service }}
       - test -p {{ service | path_join('supervise', 'ok') }}
@@ -40,7 +40,7 @@
 {% set service = runit.service_dir | path_join(name) %}
 {{ name }}_restart_service:
   cmd.run:
-    - name: sv restart {{ service }}
+    - name: {{ runit.sv }} restart {{ service }}
     - onlyif:
       - test -d {{ service }}
 {%- endmacro %}
@@ -53,7 +53,7 @@
 {% set service = runit.service_dir | path_join(name) %}
 {{ name }}_signal_service:
   cmd.run:
-    - name: sv {{ signal }} {{ service }}
+    - name: {{ runit.sv }} {{ signal }} {{ service }}
     - onlyif:
       - test -d {{ service }}
 {%- endmacro %}
