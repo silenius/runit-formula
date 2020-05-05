@@ -1,9 +1,11 @@
+{% from "runit/map.jinja" import runit with context %}
+
 ################
 # STOP SERVICE #
 ################
 
 {% macro stop_service(name) -%}
-{% set service = '/var/service' | path_join(name) %}
+{% set service = runit.service_dir | path_join(name) %}
 {{ name }}_stop_service:
   cmd.run:
     - name: sv down {{ service }}
@@ -16,7 +18,7 @@
 #################
 
 {% macro start_service(name) -%}
-{% set service = '/var/service' | path_join(name) %}
+{% set service = runit.service_dir | path_join(name) %}
 {{ name }}_start_service:
   file.managed:
     - name: {{ service | path_join('run') }}
@@ -35,7 +37,7 @@
 ###################
 
 {% macro restart_service(name) -%}
-{% set service = '/var/service' | path_join(name) %}
+{% set service = runit.service_dir | path_join(name) %}
 {{ name }}_restart_service:
   cmd.run:
     - name: sv restart {{ service }}
@@ -48,7 +50,7 @@
 ##################
 
 {% macro signal_service(name, signal='hup') -%}
-{% set service = '/var/service' | path_join(name) %}
+{% set service = runit.service_dir | path_join(name) %}
 {{ name }}_signal_service:
   cmd.run:
     - name: sv {{ signal }} {{ service }}
@@ -61,7 +63,7 @@
 ##################
 
 {% macro remove_service(name) -%}
-{% set service = '/var/service' | path_join(name) %}
+{% set service = 'runit.service_dir' | path_join(name) %}
 {{ name }}_remove_service:
   file.absent:
     - name: {{ service }}
